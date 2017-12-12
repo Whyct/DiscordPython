@@ -68,7 +68,7 @@ if ctx.message.author.guild_permissions.administrator==True and user.guild_permi
         if 'Permissions too low' in str(e):
             await client.say("The bot does not have sufficient permissions!")
 else:
-    await ctx.say('You cannot ban this
+    await ctx.say('You cannot ban this person')
 
 @bot.command()
 async def poll(ctx, *, message):
