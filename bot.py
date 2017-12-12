@@ -60,7 +60,7 @@ async def kick(ctx,user:discord.Member):
 @bot.command(pass_context=True)
 async def ban(ctx, *, user : discord.Member):
     if ctx.message.author.guild_permissions.administrator==True and user.guild_permissions.administrator==False:
-        embed = discord.Embed(title = 'Banned!', description = "{} got banned".format(user.name), colour = {Use your own colour not mine})
+        embed = discord.Embed(title = 'Banned!', description = "{} got banned".format(user.name), colour = {user.color})
         try:
             await ctx.guild.ban(user)
             await ctx.say(embed=embed)
