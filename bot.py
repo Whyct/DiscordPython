@@ -2,6 +2,7 @@ import asyncio
 import discord
 from discord.ext.commands import Bot
 from discord.ext import commands
+import datetime
 ########################################
 bot = commands.Bot(command_prefix='?')
 
@@ -54,5 +55,20 @@ async def kick(ctx,user:discord.Member):
         print('Users currently : {}'.format(bot.get_all_members()))
     else:
         await ctx.send('Bye! {}'.format(ctx.message.author.mention))
+       
+@bot.command(pass_context=True)
+async 
 
+@bot.command()
+async def poll(ctx, *, message):
+    author = ctx.message.author
+    embed = discord.Embed(color=author.color, timestamp=datetime.datetime.utcnow())
+    embed.set_author(name="Poll", icon_url=author.avatar_url)
+    embed.description = message
+    embed.set_footer(text=author.name)
+    x = await ctx.send(embed=embed)
+    await x.add_reaction("👍")
+    await x.add_reaction("\U0001f937")
+    await x.add_reaction("👎")
+ 
 bot.run('MzgzMDIzMTgzNTg4MjI5MTIx.DPeRbg.W4aJe-4-JFuEqzlPkikUCciIkbo')
