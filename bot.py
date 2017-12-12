@@ -59,16 +59,16 @@ async def kick(ctx,user:discord.Member):
     
 @bot.command(pass_context=True)
 async def ban(ctx, *, user : discord.Member):
-if ctx.message.author.guild_permissions.administrator==True and user.guild_permissions.administrator==False:
-    embed = discord.Embed(title = 'Banned!', description = "{} got banned".format(user.name), colour = {Use your own colour not mine})
-    try:
-        await ctx.guild.ban(user)
-        await ctx.say(embed=embed)
-    except Exception as e:
-        if 'Permissions too low' in str(e):
-            await client.say("The bot does not have sufficient permissions!")
-else:
-    await ctx.say('You cannot ban this person')
+    if ctx.message.author.guild_permissions.administrator==True and user.guild_permissions.administrator==False:
+        embed = discord.Embed(title = 'Banned!', description = "{} got banned".format(user.name), colour = {Use your own colour not mine})
+        try:
+            await ctx.guild.ban(user)
+            await ctx.say(embed=embed)
+        except Exception as e:
+            if 'Permissions too low' in str(e):
+                await client.say("The bot does not have sufficient permissions!")
+    else:
+        await ctx.say('You cannot ban this person')
 
 @bot.command()
 async def poll(ctx, *, message):
