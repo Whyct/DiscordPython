@@ -3,6 +3,7 @@ import discord
 from discord.ext.commands import Bot
 from discord.ext import commands
 import datetime
+import sys, traceback
 ########################################
 bot = commands.Bot(command_prefix='?')
 
