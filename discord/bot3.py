@@ -10,7 +10,7 @@ def get_prefix(bot, message):
     if not message.guild:
         return '?'
     return commands.when_mentioned_or(*prefixes)(bot, message)
-initial_extensions = ['music', 'translate']
+initial_extensions = ['cogs.music', 'cogs.translate']
                       
 bot = commands.Bot(command_prefix=get_prefix, description='A Rewrite Cog Example')
 
