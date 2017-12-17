@@ -10,7 +10,7 @@ def get_prefix(bot, message):
     if not message.guild:
         return '?'
     return commands.when_mentioned_or(*prefixes)(bot, message)
-initial_extensions = ['cogs.music', 'cogs.translate']
+initial_extensions = ['music', 'translate']
                       
 bot = commands.Bot(command_prefix=get_prefix, description='A Rewrite Cog Example')
 
@@ -82,6 +82,18 @@ async def ban(ctx, *, user : discord.Member):
     else:
         await ctx.send('Stop!{}'.format(ctx.message.author.mention))
 
+@bot.command()
+async def mute(ctx, *, user : discord.Member):
+    role = discord.utils.get(ctx.guild.roles, name='Muted')
+    if ctx.message.author.guild_permissions.administrator==True:
+        embed = discord.Embed(title = 'Muted!', description = "{} has been muted".format(user.name), colour = ctx.message.author.color)
+        try:
+            await ctx.user.add_roles(role)
+        except Exception as e:
+            if 'Permissions too low' in str(e):
+                await ctx.say('No Perms!')
+    else:
+        await ctx.send('This command can only be used by administrators')
 @bot.command()#Poll command
 async def poll(ctx, *, message):
     author = ctx.message.author
