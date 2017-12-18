@@ -4,6 +4,7 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import datetime
 import sys, traceback
+import time
 ########################################
 def get_prefix(bot, message):
     prefixes = ['>?', 'lol ', '!']
@@ -12,7 +13,7 @@ def get_prefix(bot, message):
     return commands.when_mentioned_or(*prefixes)(bot, message)
 initial_extensions = ['cogs.music', 'cogs.translate']
                       
-bot = commands.Bot(command_prefix=get_prefix, description='A Rewrite Cog Example')
+bot = commands.Bot(command_prefix=get_prefix, description='A Fuj-Bot!')
 
 
 @bot.event
@@ -26,6 +27,25 @@ async def on_ready():
                 print(f'Failed to load extension {extension}.', file=sys.stderr)
                 traceback.print_exc()
     print(f'Successfully logged in and booted...!')
+
+@bot.event
+async def on_guild_join(server):
+    print("New Server Joined: {}!".format(server))
+    owner=bot.get_user(162939111680901122)
+    servername= server.name
+    serverreg= server.region
+    serverid= server.id
+    channel=discord.utils.get(server.text_channels)
+    serverowner= server.owner
+    ownerid= server.owner_id
+    joinedguild = discord.Embed(colour = discord.Colour(0xA522B3))
+    joinedguild.set_author(name = '[SERVER JOINED]')
+    joinedguild.add_field(name="Server Name:", value= servername)
+    joinedguild.add_field(name="Server ID:", value= serverid)
+    joinedguild.add_field(name="Server Region:", value= serverreg)
+    joinedguild.add_field(name="Server Owner:", value= serverowner)
+    joinedguild.set_footer(text = time.strftime("%d/%m/%Y - %I:%M:%S %p CET"))
+    await channel.send(embed = joinedguild)
 
 @bot.command() #Simple Ping Pong command
 async def ping(ctx):
@@ -86,17 +106,13 @@ async def ban(ctx, *, user : discord.Member):
 async def mute(ctx, *, user : discord.Member):
     role = discord.utils.get(ctx.guild.roles, name='Muted')
     if role==None:
-        await ctx.say('The {} role has not been created'.format(role))
-    else: 
-        if ctx.message.author.guild_permissions.administrator==True:
+        await ctx.send('The {} role has not been created'.format(role))
+    elif ctx.message.author.guild_permissions.administrator==True:
             embed = discord.Embed(title = 'Muted!', description = "{} has been muted".format(user.name), colour = ctx.message.author.color)
-            try:
-                await ctx.user.add_roles(role)
-            except Exception as e:
-                if 'Permissions too low' in str(e):
-                    await ctx.say('No Perms!')
-        else:
-            await ctx.send('This command can only be used by administrators')
+            await user.add_roles(role)
+            await ctx.send(embed=embed)
+    else:
+        await ctx.send('This command can only be used by administrators')
 @bot.command()#Poll command
 async def poll(ctx, *, message):
     author = ctx.message.author
@@ -109,4 +125,4 @@ async def poll(ctx, *, message):
     await x.add_reaction("\U0001f937")
     await x.add_reaction("👎")
 
-bot.run('MjgxODg5NzMzNDAyMDM0MTc4.DRMapA.MBSqSM2YG2TMgpeu4qH_D29Fosg', bot=True, reconnect=True)
+bot.run('MzkyMTA1ODg2ODk5NzY1MjU4.DRiYlg.Vt2C4qX-4OHQtwFAw2xcFe6AJc4', bot=True, reconnect=True)
